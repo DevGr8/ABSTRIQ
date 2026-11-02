@@ -49,6 +49,27 @@ firebase_service.init_firebase()
 
 
 # ---------------------------------------------------------------------------
+# Global CORS Support (for decoupled Vercel Frontend <-> Backend deployment)
+# ---------------------------------------------------------------------------
+@app.before_request
+def handle_options_preflight():
+    if request.method == "OPTIONS":
+        response = app.make_default_options_response()
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, Accept, X-Requested-With"
+        response.headers["Access-Control-Max-Age"] = "86400"
+        return response
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, Accept, X-Requested-With"
+    return response
+
+
+# ---------------------------------------------------------------------------
 # Authentication Middleware
 # ---------------------------------------------------------------------------
 def get_current_user():
