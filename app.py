@@ -470,6 +470,8 @@ def evaluate():
     provider_override = (data.get("provider") or "").strip().lower() or None
     model_override = (data.get("model") or "").strip() or None
     api_key_override = (data.get("api_key") or "").strip() or None
+    provenance = data.get("provenance")
+    original_abstract = data.get("original_abstract")
 
     user = g.current_user
     user_id = user.get("id")
@@ -500,6 +502,8 @@ def evaluate():
         model_override=model_override,
         api_key_override=api_key_override,
         user_id=user_id,
+        provenance=provenance,
+        original_abstract=original_abstract,
     )
 
     if not result.get("success"):
@@ -626,14 +630,15 @@ def upload_file():
             "error": "The uploaded file is empty.",
         }), 400
 
+    provenance = None
     if filename.endswith(".pdf"):
-        title, abstract = extractor.extract_from_pdf(content_bytes)
+        title, abstract, provenance = extractor.extract_from_pdf_with_provenance(content_bytes, uploaded.filename)
     elif filename.endswith((".txt", ".md")):
         try:
             text = content_bytes.decode("utf-8")
         except UnicodeDecodeError:
             text = content_bytes.decode("latin-1", errors="replace")
-        title, abstract = extractor.extract_from_txt(text)
+        title, abstract, provenance = extractor.extract_from_txt_with_provenance(text, uploaded.filename, raw_bytes=content_bytes)
     else:
         return jsonify({
             "success": False,
@@ -653,8 +658,10 @@ def upload_file():
         "success": True,
         "title": title or "",
         "abstract": abstract,
+        "original_abstract": abstract,
         "word_count": len(abstract.split()),
         "filename": uploaded.filename,
+        "provenance": provenance,
     }), 200
 
 

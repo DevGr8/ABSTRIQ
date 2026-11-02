@@ -15,6 +15,7 @@ import {
 import type { EvaluationResult } from "../../types";
 import { ScoreMeter } from "../charts/ScoreMeter";
 import { CriteriaBreakdown } from "../charts/CriteriaBreakdown";
+import { ProvenancePanel } from "./ProvenancePanel";
 
 interface EvaluationResultCardProps {
   result: EvaluationResult;
@@ -66,6 +67,14 @@ export const EvaluationResultCard: React.FC<EvaluationResultCardProps> = ({ resu
             </p>
           </div>
         </div>
+      )}
+
+      {/* Academic Source Provenance */}
+      {result.provenance && (
+        <ProvenancePanel
+          provenance={result.provenance}
+          originalAbstract={result.original_abstract}
+        />
       )}
 
       {/* Main Score & Diagnostic Card */}

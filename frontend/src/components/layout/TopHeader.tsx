@@ -3,8 +3,8 @@
  * Minimalist top header displaying section breadcrumbs, quick actions, and user status
  */
 
-import React from "react";
-import { Menu, Key, Download, User, LogIn, Cpu, Sparkles } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Menu, Key, Download, User, LogIn, LogOut, Settings as SettingsIcon, ShieldCheck, ChevronDown } from "lucide-react";
 import type { ActivePage, RuntimeConfig } from "../../types";
 import { useAuth } from "../../context/AuthContext";
 import type { CustomApiConfig } from "../common/ApiKeyModal";
@@ -41,7 +41,19 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   onNavigate,
   isCollapsed,
 }) => {
-  const { user, openAuthModal, customKeyInfo } = useAuth();
+  const { user, logout, openAuthModal, customKeyInfo } = useAuth();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const isCustomActive = Boolean(customKeyInfo?.has_key || customConfig);
   const activeProvider = (customKeyInfo?.provider || customConfig?.provider || config?.provider || "INCEPTION").toUpperCase();
@@ -106,17 +118,76 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             <span>Excel</span>
           </button>
 
-          {/* User Account Button */}
+          {/* User Account Dropdown */}
           {user ? (
-            <button
-              onClick={() => onNavigate("profile")}
-              className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-mono text-slate-200 transition-colors"
-            >
-              <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-[10px] font-bold text-emerald-300">
-                {user.username.charAt(0).toUpperCase()}
-              </div>
-              <span className="hidden sm:inline font-bold">{user.username}</span>
-            </button>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-mono text-slate-200 transition-colors"
+              >
+                <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-[10px] font-bold text-emerald-300">
+                  {user.username.charAt(0).toUpperCase()}
+                </div>
+                <span className="hidden sm:inline font-bold">{user.username}</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </button>
+
+              {/* Dropdown Menu */}
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-56 rounded-xl bg-slate-900 border border-slate-800 shadow-2xl py-2 z-50 text-xs font-mono space-y-1 animate-in fade-in slide-in-from-top-2">
+                  <div className="px-3 py-2 border-b border-slate-800">
+                    <div className="text-[10px] text-slate-400 uppercase tracking-wider">Signed In As</div>
+                    <div className="font-bold text-white truncate">{user.email || user.username}</div>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      onNavigate("profile");
+                    }}
+                    className="w-full px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800/70 flex items-center space-x-2 transition-colors"
+                  >
+                    <User className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>My Profile</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      onNavigate("settings");
+                    }}
+                    className="w-full px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800/70 flex items-center space-x-2 transition-colors"
+                  >
+                    <SettingsIcon className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Rubric &amp; Documentation</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      onOpenApiKeyModal();
+                    }}
+                    className="w-full px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800/70 flex items-center space-x-2 transition-colors"
+                  >
+                    <Key className="w-3.5 h-3.5 text-purple-400" />
+                    <span>API Credentials</span>
+                  </button>
+
+                  <div className="border-t border-slate-800 pt-1">
+                    <button
+                      onClick={() => {
+                        setIsDropdownOpen(false);
+                        logout();
+                      }}
+                      className="w-full px-3 py-2 text-left text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 flex items-center space-x-2 transition-colors"
+                    >
+                      <LogOut className="w-3.5 h-3.5" />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <button
               onClick={() => openAuthModal("login")}

@@ -1,12 +1,16 @@
 /**
  * context/AuthContext.tsx
- * Global authentication and security state for ABSTRIQ 2.0
+ * Global authentication and security state for ABSTRIQ 3.2
+ * Resilient session management: preserves user state across network interruptions,
+ * page reloads, and Render backend spin-up latencies.
  */
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import type { UserProfile, UserCustomKeyInfo } from "../types";
 import * as authService from "../services/auth";
-import { getAuthToken, setAuthToken } from "../services/api";
+import { getAuthToken, setAuthToken, ApiError } from "../services/api";
+import { auth } from "../services/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export type AuthModalTab = "login" | "signup" | "forgot" | "reset";
 
@@ -31,8 +35,29 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+function getCachedUser(): UserProfile | null {
+  try {
+    const raw = localStorage.getItem("abstriq_cached_user");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedUser(u: UserProfile | null): void {
+  try {
+    if (u) {
+      localStorage.setItem("abstriq_cached_user", JSON.stringify(u));
+    } else {
+      localStorage.removeItem("abstriq_cached_user");
+    }
+  } catch {
+    // ignore
+  }
+}
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(() => getCachedUser());
   const [token, setTokenState] = useState<string | null>(() => getAuthToken() || null);
   const [customKeyInfo, setCustomKeyInfo] = useState<UserCustomKeyInfo | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -58,7 +83,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setCustomKeyInfo(null);
       }
     } catch {
-      setCustomKeyInfo(null);
+      // Retain existing key info on transient network errors
     }
   };
 
@@ -66,6 +91,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const currentToken = getAuthToken();
     if (!currentToken) {
       setUser(null);
+      setCachedUser(null);
       setCustomKeyInfo(null);
       setIsLoading(false);
       return;
@@ -75,30 +101,57 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const res = await authService.getMe();
       if (res.success && res.user) {
         setUser(res.user);
+        setCachedUser(res.user);
         setTokenState(currentToken);
         await refreshCustomKey();
       } else {
+        // Explicitly rejected by backend
         setUser(null);
+        setCachedUser(null);
         setAuthToken(null);
         setTokenState(null);
       }
-    } catch {
-      setUser(null);
-      setAuthToken(null);
-      setTokenState(null);
+    } catch (err: any) {
+      // CRITICAL RESILIENCE FIX:
+      // Only clear credentials if backend explicitly returned HTTP 401 Unauthorized.
+      // Do NOT clear user or token on transient network errors, cold start delays, or offline state.
+      if (err instanceof ApiError && err.status === 401) {
+        setUser(null);
+        setCachedUser(null);
+        setAuthToken(null);
+        setTokenState(null);
+      } else {
+        console.warn("Backend refreshMe note (session maintained via cache):", err?.message || err);
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Listen to Firebase client auth state changes
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
+      if (fbUser) {
+        try {
+          const freshToken = await fbUser.getIdToken();
+          setAuthToken(freshToken);
+          setTokenState(freshToken);
+        } catch (e) {
+          console.warn("Firebase token refresh note:", e);
+        }
+      }
+    });
+
     refreshMe();
+
+    return () => unsubscribe();
   }, []);
 
   const login = async (payload: authService.LoginPayload) => {
     const res = await authService.login(payload);
     if (res.user && res.token) {
       setUser(res.user);
+      setCachedUser(res.user);
       setTokenState(res.token);
       await refreshCustomKey();
       closeAuthModal();
@@ -109,6 +162,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const res = await authService.signup(payload);
     if (res.user && res.token) {
       setUser(res.user);
+      setCachedUser(res.user);
       setTokenState(res.token);
       await refreshCustomKey();
       closeAuthModal();
@@ -116,8 +170,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const logout = async () => {
-    await authService.logout();
+    try {
+      await authService.logout();
+    } catch {
+      // ignore
+    }
     setUser(null);
+    setCachedUser(null);
+    setAuthToken(null);
     setTokenState(null);
     setCustomKeyInfo(null);
   };

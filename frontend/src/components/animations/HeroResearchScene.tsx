@@ -14,12 +14,12 @@ function ResearchNodeCore({ mouse }: { mouse: React.MutableRefObject<[number, nu
   const { nodePositions, linePositions } = useMemo(() => {
     const count = 38;
     const positions: [number, number, number][] = [];
-    const radius = 2.0;
+    const radius = 1.75;
 
     for (let i = 0; i < count; i++) {
       const phi = Math.acos(-1 + (2 * i) / count);
       const theta = Math.sqrt(count * Math.PI) * phi;
-      const r = radius * (0.85 + Math.random() * 0.3);
+      const r = radius * (0.85 + Math.random() * 0.28);
       positions.push([
         r * Math.cos(theta) * Math.sin(phi),
         r * Math.sin(theta) * Math.sin(phi),
@@ -35,7 +35,7 @@ function ResearchNodeCore({ mouse }: { mouse: React.MutableRefObject<[number, nu
         const dy = positions[i][1] - positions[j][1];
         const dz = positions[i][2] - positions[j][2];
         const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        if (dist < 1.6) {
+        if (dist < 1.45) {
           lines.push(...positions[i], ...positions[j]);
         }
       }
@@ -81,7 +81,7 @@ function ResearchNodeCore({ mouse }: { mouse: React.MutableRefObject<[number, nu
     <group ref={groupRef}>
       {/* Central Geometric Research Nucleus */}
       <mesh ref={coreRef}>
-        <icosahedronGeometry args={[1.2, 1]} />
+        <icosahedronGeometry args={[1.05, 1]} />
         <meshStandardMaterial
           color="#10b981"
           wireframe
@@ -94,24 +94,24 @@ function ResearchNodeCore({ mouse }: { mouse: React.MutableRefObject<[number, nu
 
       {/* Inner Glowing Crystal Core */}
       <mesh>
-        <octahedronGeometry args={[0.65, 0]} />
+        <octahedronGeometry args={[0.55, 0]} />
         <meshBasicMaterial color="#00ff88" wireframe />
       </mesh>
 
-      {/* Orbital Scientific Rings */}
+      {/* Orbital Scientific Rings - Scaled to preserve visual clearance */}
       <mesh ref={ring1Ref}>
-        <torusGeometry args={[2.45, 0.015, 16, 120]} />
+        <torusGeometry args={[2.05, 0.015, 16, 120]} />
         <meshBasicMaterial color="#06b6d4" transparent opacity={0.45} />
       </mesh>
       <mesh ref={ring2Ref} rotation={[Math.PI / 3, 0, 0]}>
-        <torusGeometry args={[2.85, 0.012, 16, 120]} />
+        <torusGeometry args={[2.35, 0.012, 16, 120]} />
         <meshBasicMaterial color="#10b981" transparent opacity={0.4} />
       </mesh>
 
       {/* Floating Network Nodes */}
       {nodePositions.map((pos, idx) => (
         <mesh key={idx} position={pos}>
-          <sphereGeometry args={[0.065, 12, 12]} />
+          <sphereGeometry args={[0.06, 12, 12]} />
           <meshStandardMaterial
             color={idx % 3 === 0 ? "#00ff88" : idx % 3 === 1 ? "#38bdf8" : "#a7f3d0"}
             emissive={idx % 3 === 0 ? "#00ff88" : "#38bdf8"}
@@ -190,7 +190,7 @@ export const HeroResearchScene: React.FC<{ className?: string }> = ({ className 
       aria-label="Interactive 3D Scientific Knowledge Network"
     >
       <Canvas
-        camera={{ position: [0, 0, 7.8], fov: 46 }}
+        camera={{ position: [0, 0, 8.8], fov: 42 }}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         dpr={[1, 1.5]}
         style={{ pointerEvents: "auto", width: "100%", height: "100%" }}

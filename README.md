@@ -1,18 +1,21 @@
-# ABSTRIQ 3.1 — Authentication-First Academic Research Evaluator & SaaS Intelligence Studio
+# ABSTRIQ 3.2 — Academic Source Provenance, Authentication-Aware Navigation & SaaS Intelligence Studio
 
 > **Topic Domain:** Computer Science &amp; Artificial Intelligence Research Abstracts  
 > **Evaluation Framework:** 20-Mark Academic Rubric (5 Criteria &times; 0–4 Levels)  
-> **Product Architecture:** Two-Tier SaaS: Public Website (Overview, Methodology, Public Docs, Static Demo) vs. Private Workspace (Dashboard, Studio, Research, History, Analytics, Custom Keys, Dynamic Excel)  
+> **Product Architecture:** Two-Tier SaaS: Public Website (`/`) vs. Private Workspace (`/app/*`)  
+> **Academic Provenance:** Version 3.2.0 Provenance Schema with SHA-256 Text & Document Hashes, Verifiable DOIs/URLs, Inverted Index Reconstruction, and Manual Edit Tracking  
+> **Navigation Architecture:** Completely Authentication-Aware. Overview removed from Private Workspace Sidebar. Authenticated routes sync to `/app/*`.  
+> **Session Persistence:** Zero-Logout Resilient Token & User State Architecture (survives network interruptions, tab switches, and Render cold-boot delays)  
 > **Frontend Stack:** React 19, TypeScript, Vite 6, Tailwind CSS, Motion for React, Three.js, React Three Fiber, Lucide React, Firebase Client SDK  
 > **Backend Stack:** Python 3.9/3.11+, Flask 3, Firebase Admin SDK, Cloud Firestore, openpyxl, cryptography (Fernet), pypdf, requests, python-dotenv  
 > **Primary LLM Engine:** Inception Labs (`mercury-3`) &bull; NVIDIA NIM (`mistral-large`) &bull; OpenAI &bull; Gemini &bull; Anthropic &bull; Deterministic Offline MOCK Heuristic  
-> **Security Architecture:** Firebase Authentication (Email/Password ONLY), Central Auth Route Guards, Dual-Layer UID Enforcement (Firestore Rules + Flask Backend), AES-Fernet Credential Vault, Dynamic UID-Isolated Excel Reporting  
+> **Deployment Architecture:** Decoupled Vercel Edge Frontend with Automated Proxying to Render Python Gunicorn Backend (`https://abstriq.onrender.com`)  
 
 ---
 
 ## 1. Product Architecture: Public Website vs. Private Workspace
 
-ABSTRIQ 3.1 operates as an authentication-first multi-user SaaS platform:
+ABSTRIQ 3.2 operates as an authentication-first multi-user SaaS platform with distinct public and authenticated layers:
 
 ```mermaid
 flowchart TD
@@ -60,9 +63,9 @@ flowchart TD
     Client["React 19 + TypeScript SPA<br/>Vite / Tailwind / Motion / Three.js"]
     
     subgraph NavigationLayer["Sliding Sidebar Navigation"]
-        Nav1["MAIN: Overview, Dashboard, Studio, Research, History, Analytics"]
+        Nav1["MAIN: Dashboard, Studio, Research, History, Analytics"]
         Nav2["WORKSPACE: Rubric & Docs, API Credentials, Dynamic Excel Download"]
-        Nav3["ACCOUNT: Profile, Password Change, Logout, Auth Modal"]
+        Nav3["ACCOUNT: Profile, Password Change, Logout"]
     end
     
     Client --> NavigationLayer

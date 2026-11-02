@@ -459,6 +459,9 @@ def save_evaluation(uid: str, eval_result: Dict[str, Any]) -> Dict[str, Any]:
         "evaluationId": eval_id,
         "researchTitle": eval_result.get("title", "Untitled Paper"),
         "abstract": eval_result.get("abstract", ""),
+        "originalAbstract": eval_result.get("original_abstract") or eval_result.get("abstract", ""),
+        "normalizedAbstract": eval_result.get("abstract", ""),
+        "provenance": eval_result.get("provenance") or {},
         "createdAt": now_iso,
         "updatedAt": now_iso,
         "totalScore": total_score,
@@ -477,6 +480,7 @@ def save_evaluation(uid: str, eval_result: Dict[str, Any]) -> Dict[str, Any]:
             "warnings": eval_result.get("warnings", []),
             "promptVersion": eval_result.get("prompt_version", "score_v3"),
             "injectionDetected": eval_result.get("injection_detected", False),
+            "provenanceVersion": eval_result.get("provenance", {}).get("provenanceVersion", "3.2.0"),
         },
     }
 

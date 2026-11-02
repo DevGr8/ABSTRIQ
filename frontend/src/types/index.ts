@@ -52,6 +52,33 @@ export interface LLMMetadata {
   is_mock: boolean;
 }
 
+export interface ProvenanceMetadata {
+  provenance_version: string;
+  source_provider: string;
+  source_url: string | null;
+  doi: string | null;
+  paper_title: string | null;
+  authors: string[] | string | null;
+  venue: string | null;
+  year: number | string | null;
+  external_id: string | null;
+  retrieval_timestamp_utc: string;
+  retrieval_method: string;
+  source_api: string | null;
+  original_record_id: string | null;
+  import_operation_id: string;
+  extraction_method: string;
+  extraction_source: string;
+  extraction_timestamp: string;
+  extraction_status: string;
+  extraction_warnings: string[];
+  original_text_hash: string;
+  normalized_text_hash: string;
+  document_hash?: string | null;
+  manually_edited: boolean;
+  modification_timestamp?: string | null;
+}
+
 export interface EvaluationResult {
   success: boolean;
   run_id?: string;
@@ -71,6 +98,8 @@ export interface EvaluationResult {
   elapsed_seconds?: number;
   injection_detected?: boolean;
   error?: string;
+  provenance?: ProvenanceMetadata | null;
+  original_abstract?: string;
 }
 
 export interface SearchPaper {
@@ -85,14 +114,17 @@ export interface SearchPaper {
   citation_count?: number;
   word_count?: number;
   source: string;
+  provenance?: ProvenanceMetadata;
 }
 
 export interface UploadResponse {
   success: boolean;
   title?: string;
   abstract?: string;
+  original_abstract?: string;
   word_count?: number;
   filename?: string;
+  provenance?: ProvenanceMetadata;
   error?: string;
 }
 
@@ -115,6 +147,8 @@ export interface HistoryRecord {
   suggestions_json: string;
   seconds: number;
   abstract: string;
+  provenance?: ProvenanceMetadata | null;
+  original_abstract?: string;
 }
 
 export type ActivePage =

@@ -82,16 +82,26 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     const path = window.location.pathname.toLowerCase();
     if (path === "/login") {
-      openAuthModal("login");
+      if (user) {
+        setActivePage("dashboard");
+      } else {
+        openAuthModal("login");
+      }
     } else if (path === "/signup") {
-      openAuthModal("signup");
+      if (user) {
+        setActivePage("dashboard");
+      } else {
+        openAuthModal("signup");
+      }
     } else if (path === "/forgot-password") {
       openAuthModal("forgot");
     } else if (path === "/documentation" || path === "/methodology") {
       setIsDocModalOpen(true);
     } else if (path.startsWith("/app/")) {
       const pageKey = path.replace("/app/", "") as ActivePage;
-      if (PROTECTED_PAGES.includes(pageKey)) {
+      if (pageKey === "landing") {
+        setActivePage("dashboard");
+      } else if (PROTECTED_PAGES.includes(pageKey)) {
         if (!user && !isLoading) {
           setRedirectTarget(pageKey);
           openAuthModal("login");
@@ -99,8 +109,23 @@ const AppContent: React.FC = () => {
           setActivePage(pageKey);
         }
       }
+    } else if (path === "/" && user && !isLoading) {
+      setActivePage("dashboard");
     }
   }, [user, isLoading]);
+
+  // URL synchronization for authenticated routes
+  useEffect(() => {
+    if (user && activePage !== "landing") {
+      if (window.location.pathname !== `/app/${activePage}`) {
+        window.history.replaceState(null, "", `/app/${activePage}`);
+      }
+    } else if (!user && activePage === "landing") {
+      if (window.location.pathname.startsWith("/app/")) {
+        window.history.replaceState(null, "", "/");
+      }
+    }
+  }, [user, activePage]);
 
   // Transition to dashboard upon login if on landing or target exists
   useEffect(() => {
@@ -123,6 +148,11 @@ const AppContent: React.FC = () => {
 
   // Central Navigation Guard
   const handleNavigate = (page: ActivePage) => {
+    if (user && page === "landing") {
+      setActivePage("dashboard");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     if (PROTECTED_PAGES.includes(page) && !user) {
       setRedirectTarget(page);
       openAuthModal("login");

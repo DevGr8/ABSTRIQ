@@ -68,7 +68,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   }, [isMobileOpen, onCloseMobile]);
 
   const mainItems: { id: ActivePage; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: "landing", label: "Overview", icon: Sparkles },
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "evaluation", label: "Evaluation Studio", icon: FileText },
     { id: "research", label: "Research Discovery", icon: Search },
@@ -93,7 +92,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Brand Header */}
       <div className={`flex items-center ${isCollapsed ? "justify-center p-3" : "justify-between px-5 py-4"} border-b border-slate-800/80`}>
         <div
-          onClick={() => handleItemClick("landing")}
+          onClick={() => handleItemClick("dashboard")}
           className="flex items-center space-x-3 cursor-pointer group"
         >
           <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 border border-emerald-500/40 flex items-center justify-center shadow-neon-green-sm group-hover:border-emerald-400 transition-colors flex-shrink-0">

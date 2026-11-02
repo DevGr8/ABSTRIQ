@@ -113,6 +113,16 @@ def init_db(db_path: Optional[Path] = None):
             CREATE INDEX IF NOT EXISTS idx_evaluations_timestamp ON evaluations(timestamp DESC);
         """)
 
+        # Schema migrations for ABSTRIQ 3.2 provenance tracking
+        try:
+            conn.execute("ALTER TABLE evaluations ADD COLUMN provenance_json TEXT DEFAULT '{}';")
+        except Exception:
+            pass
+        try:
+            conn.execute("ALTER TABLE evaluations ADD COLUMN original_abstract TEXT DEFAULT '';")
+        except Exception:
+            pass
+
     # Check if we should backfill legacy records from results.xlsx
     _backfill_legacy_excel(conn)
     conn.close()
@@ -731,14 +741,22 @@ def save_db_evaluation(
         else:
             suggestions_json = str(suggestions_raw)
 
+        prov_raw = record.get("provenance") or {}
+        if isinstance(prov_raw, (list, dict)):
+            provenance_json = json.dumps(prov_raw)
+        else:
+            provenance_json = str(prov_raw)
+
+        orig_abstract = str(record.get("original_abstract") or record.get("abstract") or "")
+
         cur.execute(
             """
             INSERT OR REPLACE INTO evaluations (
                 id, user_id, timestamp, source, title, prompt_version, model,
                 status, word_count, score_purpose, score_method, score_results,
                 score_conclusion, score_clarity, total, warnings, suggestions_json,
-                seconds, abstract
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                seconds, abstract, provenance_json, original_abstract
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 str(record.get("id")),
@@ -760,6 +778,8 @@ def save_db_evaluation(
                 suggestions_json,
                 float(record.get("seconds", 0.0)),
                 str(record.get("abstract", "")),
+                provenance_json,
+                orig_abstract,
             ),
         )
         conn.commit()
@@ -824,6 +844,10 @@ def get_evaluations_history(
                 d["suggestions"] = json.loads(d.get("suggestions_json") or "[]")
             except Exception:
                 d["suggestions"] = []
+            try:
+                d["provenance"] = json.loads(d.get("provenance_json") or "{}")
+            except Exception:
+                d["provenance"] = {}
             results.append(d)
         return results
     finally:

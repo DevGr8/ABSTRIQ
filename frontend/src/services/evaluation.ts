@@ -1,9 +1,10 @@
-import { requestJson, resolveApiUrl, ApiError } from "./api";
+import { requestJson, resolveApiUrl, ApiError, getAuthToken } from "./api";
 import type {
   RuntimeConfig,
   EvaluationResult,
   UploadResponse,
   HistoryRecord,
+  ProvenanceMetadata,
 } from "../types";
 
 export interface EvaluatePayload {
@@ -14,6 +15,8 @@ export interface EvaluatePayload {
   provider?: string;
   model?: string;
   api_key?: string;
+  provenance?: ProvenanceMetadata | null;
+  original_abstract?: string;
 }
 
 export interface TestKeyPayload {
@@ -61,8 +64,15 @@ export async function uploadDocument(file: File): Promise<UploadResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
+  const authHeaders: Record<string, string> = {};
+  const token = getAuthToken();
+  if (token) {
+    authHeaders["Authorization"] = `Bearer ${token}`;
+  }
+
   const response = await fetch(resolveApiUrl("/api/upload"), {
     method: "POST",
+    headers: authHeaders,
     body: formData,
   });
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Sparkles, ArrowLeft, RefreshCw, AlertCircle, Key, Cpu, ShieldCheck, User } from "lucide-react";
-import type { EvaluationResult, RuntimeConfig, SearchPaper } from "../types";
+import type { EvaluationResult, RuntimeConfig, SearchPaper, ProvenanceMetadata } from "../types";
 import type { CustomApiConfig } from "../components/common/ApiKeyModal";
 import { EvaluationForm } from "../components/evaluation/EvaluationForm";
 import { EvaluationResultCard } from "../components/evaluation/EvaluationResultCard";
@@ -36,6 +36,8 @@ export const EvaluationPage: React.FC<EvaluationPageProps> = ({
     title: string;
     source: string;
     prompt_version: string;
+    provenance?: ProvenanceMetadata | null;
+    original_abstract?: string;
   }) => {
     setIsLoading(true);
     setErrorMessage("");

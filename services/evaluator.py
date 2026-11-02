@@ -24,6 +24,7 @@ import llm
 from services import storage
 from services import automation
 from services import db
+from services.provenance import create_provenance_record, compute_sha256, normalize_abstract_text
 
 logger = logging.getLogger(__name__)
 
@@ -390,9 +391,11 @@ def evaluate_abstract(
     api_key_override: Optional[str] = None,
     user_id: Optional[int] = None,
     excel_path: Optional[Path] = None,
+    provenance: Optional[Dict[str, Any]] = None,
+    original_abstract: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
-    Run complete evaluation pipeline for an abstract.
+    Run complete evaluation pipeline for an abstract, preserving cryptographic source provenance.
     """
     start_time = time.perf_counter()
     run_id = f"eval_{uuid.uuid4().hex[:10]}"
@@ -438,6 +441,33 @@ def evaluate_abstract(
 
     elapsed_seconds = round(time.perf_counter() - start_time, 2)
 
+    # Process and build provenance metadata
+    orig_text = (original_abstract or (provenance.get("originalAbstractText") if provenance else None) or abstract).strip()
+    norm_text = normalize_abstract_text(abstract)
+    is_edited = (provenance.get("manuallyEdited", False) if provenance else False) or (orig_text != norm_text)
+
+    if not provenance:
+        prov_record = create_provenance_record(
+            source_type="manual",
+            source_provider="Manual Input",
+            paper_title=title or "Manual Abstract",
+            original_text=orig_text,
+            normalized_text=norm_text,
+            retrieval_method="direct_input",
+            extraction_method="manual_entry",
+            extraction_source="user_direct_input",
+            manually_edited=is_edited,
+        )
+    else:
+        prov_record = dict(provenance)
+        prov_record["originalAbstractText"] = orig_text
+        prov_record["normalizedAbstractText"] = norm_text
+        prov_record["originalTextHash"] = compute_sha256(orig_text)
+        prov_record["normalizedTextHash"] = compute_sha256(norm_text)
+        prov_record["manuallyEdited"] = is_edited
+        if is_edited and not prov_record.get("modificationTimestamp"):
+            prov_record["modificationTimestamp"] = now_iso
+
     # Build evaluation record for storage
     row_record = {
         "timestamp": now_iso,
@@ -457,7 +487,9 @@ def evaluate_abstract(
         "warnings": "; ".join(combined_warnings) if combined_warnings else "none",
         "suggestions": suggestions,
         "seconds": elapsed_seconds,
-        "abstract": abstract,
+        "abstract": norm_text,
+        "original_abstract": orig_text,
+        "provenance": prov_record,
     }
 
     # Stage 5A: Save to Excel & SQLite
@@ -485,4 +517,7 @@ def evaluate_abstract(
         "injection_detected": injection_alert,
         "automation": auto_result,
         "elapsed_seconds": elapsed_seconds,
+        "abstract": norm_text,
+        "original_abstract": orig_text,
+        "provenance": prov_record,
     }

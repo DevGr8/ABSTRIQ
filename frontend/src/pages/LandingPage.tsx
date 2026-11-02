@@ -156,7 +156,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
-          className="w-full lg:w-1/2 h-[480px] sm:h-[540px] lg:h-[580px] relative flex items-center justify-center overflow-visible"
+          className="w-full lg:w-1/2 h-[520px] sm:h-[580px] lg:h-[620px] relative flex items-center justify-center overflow-visible"
         >
           <HeroResearchScene className="w-full h-full" />
         </motion.div>

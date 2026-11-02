@@ -13,7 +13,8 @@ import {
 } from "lucide-react";
 import { uploadDocument } from "../../services/evaluation";
 import { searchPapers } from "../../services/research";
-import type { SearchPaper } from "../../types";
+import type { SearchPaper, ProvenanceMetadata } from "../../types";
+import { ProvenancePanel } from "./ProvenancePanel";
 
 interface EvaluationFormProps {
   onSubmit: (payload: {
@@ -21,6 +22,8 @@ interface EvaluationFormProps {
     title: string;
     source: string;
     prompt_version: string;
+    provenance?: ProvenanceMetadata | null;
+    original_abstract?: string;
   }) => Promise<void>;
   isLoading: boolean;
   promptVersions: string[];
@@ -40,12 +43,16 @@ export const EvaluationForm: React.FC<EvaluationFormProps> = ({
   const [titleText, setTitleText] = useState("");
   const [selectedPrompt, setSelectedPrompt] = useState(defaultPrompt || "score_v3");
   const [sourceType, setSourceType] = useState<string>("paste");
+  const [provenance, setProvenance] = useState<ProvenanceMetadata | null>(null);
+  const [originalAbstract, setOriginalAbstract] = useState<string>("");
 
   useEffect(() => {
     if (initialPaper) {
       setTitleText(initialPaper.title || "");
       setAbstractText(initialPaper.abstract || "");
+      setOriginalAbstract(initialPaper.abstract || "");
       setSourceType(initialPaper.source || "search_import");
+      setProvenance(initialPaper.provenance || null);
       setTab("paste");
     }
   }, [initialPaper]);
@@ -109,7 +116,9 @@ export const EvaluationForm: React.FC<EvaluationFormProps> = ({
   const handleSelectPaper = (paper: SearchPaper) => {
     setTitleText(paper.title);
     setAbstractText(paper.abstract);
+    setOriginalAbstract(paper.abstract);
     setSourceType(paper.source);
+    setProvenance(paper.provenance || null);
     setTab("paste");
   };
 
@@ -121,8 +130,10 @@ export const EvaluationForm: React.FC<EvaluationFormProps> = ({
       if (res.success && res.abstract) {
         setTitleText(res.title || file.name.replace(/\.[^/.]+$/, ""));
         setAbstractText(res.abstract);
+        setOriginalAbstract(res.abstract);
         setUploadedFileName(file.name);
         setSourceType("upload");
+        setProvenance(res.provenance || null);
         setTab("paste");
       } else {
         setUploadError(res.error || "Failed to extract abstract from file.");
@@ -151,6 +162,8 @@ export const EvaluationForm: React.FC<EvaluationFormProps> = ({
       title: titleText.trim(),
       source: sourceType,
       prompt_version: selectedPrompt,
+      provenance,
+      original_abstract: originalAbstract || abstractText.trim(),
     });
   };
 
@@ -245,6 +258,15 @@ export const EvaluationForm: React.FC<EvaluationFormProps> = ({
               className="w-full px-3.5 py-2.5 rounded-lg bg-slate-900/90 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm text-slate-100 placeholder-slate-400 outline-none transition-all"
             />
           </div>
+
+          {/* Academic Source Provenance Panel */}
+          {provenance && (
+            <ProvenancePanel
+              provenance={provenance}
+              originalAbstract={originalAbstract}
+              currentAbstract={abstractText}
+            />
+          )}
 
           {/* Abstract Text Area */}
           <div>
