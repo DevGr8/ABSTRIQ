@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default Deny All Unmatched Access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    function isValidUserDoc(uid) {
+      return request.resource.data.uid == uid;
+    }
+
+    // 1. User Profiles: users/{uid}
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && isValidUserDoc(uid);
+      allow update: if isOwner(uid) 
+                    && request.resource.data.uid == resource.data.uid
+                    && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['uid', 'createdAt', 'accountStatus']));
+      allow delete: if false; // Account deletion requires backend verification
+
+      // 2. User Evaluations: users/{uid}/evaluations/{evaluationId}
+      match /evaluations/{evaluationId} {
+        allow read: if isOwner(uid);
+        // Direct client creation requires ownership; server admin SDK manages full evaluations
+        allow write: if isOwner(uid);
+      }
+
+      // 3. User API Configurations (Metadata only, no plaintext keys): users/{uid}/apiConfigurations/{configId}
+      match /apiConfigurations/{configId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // 4. User Generated Reports: users/{uid}/reports/{reportId}
+      match /reports/{reportId} {
+        allow read: if isOwner(uid);
+        allow write: if false; // Generated exclusively by backend
+      }
+    }
+
+    // 5. Legacy Evaluations Collection (Admin SDK only, zero direct client access)
+    match /legacy_evaluations/{evaluationId} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+Score this research abstract on the following 5 criteria (each 0 to 4, total 20):
+1. purpose (problem/gap/aim)
+2. method (approach, data, setup)
+3. results (concrete findings, numbers, comparison)
+4. conclusion (contribution, implications, limits)
+5. clarity (readable, organised, 120-250 words)
+
+Return valid JSON with:
+{
+  "purpose": {"score": 0-4, "reason": "...", "evidence": "..."},
+  "method": {"score": 0-4, "reason": "...", "evidence": "..."},
+  "results": {"score": 0-4, "reason": "...", "evidence": "..."},
+  "conclusion": {"score": 0-4, "reason": "...", "evidence": "..."},
+  "clarity": {"score": 0-4, "reason": "...", "evidence": "..."},
+  "total": 0-20
+}
+
+<abstract>
+{ABSTRACT}
+</abstract>

@@ -1,0 +1,314 @@
+{
+  "metadata": {
+    "collected_at": "2026-11-01T22:43:10.524520+00:00",
+    "arxiv_count": 15,
+    "openalex_count": 15,
+    "total_count": 30
+  },
+  "papers": {
+    "arxiv": [
+      {
+        "id": "http://arxiv.org/abs/2201.00978v1",
+        "title": "PyramidTNT: Improved Transformer-in-Transformer Baselines with Pyramid Architecture",
+        "authors": "Kai Han, Jianyuan Guo, Yehui Tang et al.",
+        "year": "2022",
+        "abstract": "Transformer networks have achieved great progress for computer vision tasks. Transformer-in-Transformer (TNT) architecture utilizes inner transformer and outer transformer to extract both local and global representations. In this work, we present new TNT baselines by introducing two advanced designs: 1) pyramid architecture, and 2) convolutional stem. The new \"PyramidTNT\" significantly improves the original TNT by establishing hierarchical representations. PyramidTNT achieves better performances than the previous state-of-the-art vision transformers such as Swin Transformer. We hope this new baseline will be helpful to the further research and application of vision transformer. Code will be available at https://github.com/huawei-noah/CV-Backbones/tree/master/tnt_pytorch.",
+        "word_count": 95,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2201.00978v1"
+      },
+      {
+        "id": "http://arxiv.org/abs/2104.11502v1",
+        "title": "Learning to Cluster Faces via Transformer",
+        "authors": "Jinxing Ye, Xioajiang Peng, Baigui Sun et al.",
+        "year": "2021",
+        "abstract": "Face clustering is a useful tool for applications like automatic face annotation and retrieval. The main challenge is that it is difficult to cluster images from the same identity with different face poses, occlusions, and image quality. Traditional clustering methods usually ignore the relationship between individual images and their neighbors which may contain useful context information. In this paper, we repurpose the well-known Transformer and introduce a Face Transformer for supervised face clustering. In Face Transformer, we decompose the face clustering into two steps: relation encoding and linkage predicting. Specifically, given a face image, a \\textbf{relation encoder} module aggregates local context information from its neighbors and a \\textbf{linkage predictor} module judges whether a pair of images belong to the same cluster or not. In the local linkage graph view, Face Transformer can generate more robust node and edge representations compared to existing methods. Experiments on both MS-Celeb-1M and DeepFashion show that our method achieves state-of-the-art performance, e.g., 91.12\\% in pairwise F-score on MS-Celeb-1M.",
+        "word_count": 163,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2104.11502v1"
+      },
+      {
+        "id": "http://arxiv.org/abs/2404.05657v1",
+        "title": "MLP Can Be A Good Transformer Learner",
+        "authors": "Sihao Lin, Pumeng Lyu, Dongrui Liu et al.",
+        "year": "2024",
+        "abstract": "Self-attention mechanism is the key of the Transformer but often criticized for its computation demands. Previous token pruning works motivate their methods from the view of computation redundancy but still need to load the full network and require same memory costs. This paper introduces a novel strategy that simplifies vision transformers and reduces computational load through the selective removal of non-essential attention layers, guided by entropy considerations. We identify that regarding the attention layer in bottom blocks, their subsequent MLP layers, i.e. two feed-forward layers, can elicit the same entropy quantity. Meanwhile, the accompanied MLPs are under-exploited since they exhibit smaller feature entropy compared to those MLPs in the top blocks. Therefore, we propose to integrate the uninformative attention layers into their subsequent counterparts by degenerating them into identical mapping, yielding only MLP in certain transformer blocks. Experimental results on ImageNet-1k show that the proposed method can remove 40% attention layer of DeiT-B, improving throughput and memory bound without performance compromise. Code is available at https://github.com/sihaoevery/lambda_vit.",
+        "word_count": 166,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2404.05657v1"
+      },
+      {
+        "id": "http://arxiv.org/abs/1809.04281v3",
+        "title": "Music Transformer",
+        "authors": "Cheng-Zhi Anna Huang, Ashish Vaswani, Jakob Uszkoreit et al.",
+        "year": "2018",
+        "abstract": "Music relies heavily on repetition to build structure and meaning. Self-reference occurs on multiple timescales, from motifs to phrases to reusing of entire sections of music, such as in pieces with ABA structure. The Transformer (Vaswani et al., 2017), a sequence model based on self-attention, has achieved compelling results in many generation tasks that require maintaining long-range coherence. This suggests that self-attention might also be well-suited to modeling music. In musical composition and performance, however, relative timing is critically important. Existing approaches for representing relative positional information in the Transformer modulate attention based on pairwise distance (Shaw et al., 2018). This is impractical for long sequences such as musical compositions since their memory complexity for intermediate relative information is quadratic in the sequence length. We propose an algorithm that reduces their intermediate memory requirement to linear in the sequence length. This enables us to demonstrate that a Transformer with our modified relative attention mechanism can generate minute-long compositions (thousands of steps, four times the length modeled in Oore et al., 2018) with compelling structure, generate continuations that coherently elaborate on a given motif, and in a seq2seq setup generate accompaniments conditioned on melodies. We evaluate the Transformer with our relative attention mechanism on two datasets, JSB Chorales and Piano-e-Competition, and obtain state-of-the-art results on the latter.",
+        "word_count": 216,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/1809.04281v3"
+      },
+      {
+        "id": "http://arxiv.org/abs/2402.11651v2",
+        "title": "Learning From Failure: Integrating Negative Examples when Fine-tuning Large Language Models as Agents",
+        "authors": "Renxi Wang, Haonan Li, Xudong Han et al.",
+        "year": "2024",
+        "abstract": "Large language models (LLMs) have achieved success in acting as agents, which interact with environments through tools such as search engines. However, LLMs are optimized for language generation instead of tool use during training or alignment, limiting their effectiveness as agents. To resolve this problem, previous work has first collected interaction trajectories between LLMs and environments, using only trajectories that successfully finished the task to fine-tune smaller models, making fine-tuning data scarce and acquiring it both difficult and costly. Discarding failed trajectories also leads to significant wastage of data and resources and limits the possible optimization paths during fine-tuning. In this paper, we argue that unsuccessful trajectories offer valuable insights, and LLMs can learn from these trajectories through appropriate quality control and fine-tuning strategies. By simply adding a prefix or suffix that tells the model whether to generate a successful trajectory during training, we improve model performance by a large margin on mathematical reasoning, multi-hop question answering, and strategic question answering tasks. We further analyze the inference results and find that our method provides a better trade-off between valuable information and errors in unsuccessful trajectories. To our knowledge, we are the first to demonstrate the value of negative trajectories and their application in agent-tunning scenarios. Our findings offer guidance for developing better agent-tuning methods and low-resource data usage techniques.",
+        "word_count": 219,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2402.11651v2"
+      },
+      {
+        "id": "http://arxiv.org/abs/2312.10793v3",
+        "title": "Demystifying Instruction Mixing for Fine-tuning Large Language Models",
+        "authors": "Renxi Wang, Haonan Li, Minghao Wu et al.",
+        "year": "2023",
+        "abstract": "Instruction tuning significantly enhances the performance of large language models (LLMs) across various tasks. However, the procedure to optimizing the mixing of instruction datasets for LLM fine-tuning is still poorly understood. This study categorizes instructions into three primary types: NLP downstream tasks, coding, and general chat. We explore the effects of instruction tuning on different combinations of datasets on LLM performance, and find that certain instruction types are more advantageous for specific applications but can negatively impact other areas. This work provides insights into instruction mixtures, laying the foundations for future research.",
+        "word_count": 92,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2312.10793v3"
+      },
+      {
+        "id": "http://arxiv.org/abs/2304.12244v3",
+        "title": "WizardLM: Empowering large pre-trained language models to follow complex instructions",
+        "authors": "Can Xu, Qingfeng Sun, Kai Zheng et al.",
+        "year": "2023",
+        "abstract": "Training large language models (LLMs) with open-domain instruction following data brings colossal success. However, manually creating such instruction data is very time-consuming and labor-intensive. Moreover, humans may struggle to produce high-complexity instructions. In this paper, we show an avenue for creating large amounts of instruction data with varying levels of complexity using LLM instead of humans. Starting with an initial set of instructions, we use our proposed Evol-Instruct to rewrite them step by step into more complex instructions. Then, we mix all generated instruction data to fine-tune LLaMA. We call the resulting model WizardLM. Human evaluations on a complexity-balanced test bed and Vicuna's testset show that instructions from Evol-Instruct are superior to human-created ones. By analyzing the human evaluation results of the high complexity part, we demonstrate that outputs from our WizardLM are preferred to outputs from OpenAI ChatGPT. In GPT-4 automatic evaluation, WizardLM achieves more than 90\\% capacity of ChatGPT on 17 out of 29 skills. Even though WizardLM still lags behind ChatGPT in some aspects, our findings suggest that fine-tuning with AI-evolved instructions is a promising direction for enhancing LLMs. Our code and data are public at https://github.com/nlpxucan/WizardLM",
+        "word_count": 190,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2304.12244v3"
+      },
+      {
+        "id": "http://arxiv.org/abs/2610.00223v1",
+        "title": "A Holistic Assessment of the Carbon Footprint of Noor, a Very Large Arabic Language Model",
+        "authors": "Imad Lakim, Ebtesam Almazrouei, Ibrahim Abu Alhaol et al.",
+        "year": "2026",
+        "abstract": "As ever larger language models grow more ubiquitous, it is crucial to consider their environmental impact. Characterised by extreme size and resource use, recent generations of models have been criticised for their voracious appetite for compute, and thus significant carbon footprint. Although reporting of carbon impact has grown more common in machine learning papers, this reporting is usually limited to compute resources used strictly for training. In this work, we propose a holistic assessment of the footprint of an extreme-scale language model, Noor. Noor is an ongoing project aiming to develop the largest multi-task Arabic language models -- with up to 13B parameters -- leveraging zero-shot generalisation to enable a wide range of downstream tasks via natural language instructions. We assess the total carbon bill of the entire project: starting with data collection and storage costs, including research and development budgets, pretraining costs, future serving estimates, and other exogenous costs necessary for this international cooperation. Notably, we find that inference costs and exogenous factors can have a significant impact on total budget. Finally, we discuss pathways to reduce the carbon footprint of extreme-scale models.",
+        "word_count": 184,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2610.00223v1"
+      },
+      {
+        "id": "http://arxiv.org/abs/2009.00804v2",
+        "title": "Architectural Implications of Graph Neural Networks",
+        "authors": "Zhihui Zhang, Jingwen Leng, Lingxiao Ma et al.",
+        "year": "2020",
+        "abstract": "Graph neural networks (GNN) represent an emerging line of deep learning models that operate on graph structures. It is becoming more and more popular due to its high accuracy achieved in many graph-related tasks. However, GNN is not as well understood in the system and architecture community as its counterparts such as multi-layer perceptrons and convolutional neural networks. This work tries to introduce the GNN to our community. In contrast to prior work that only presents characterizations of GCNs, our work covers a large portion of the varieties for GNN workloads based on a general GNN description framework. By constructing the models on top of two widely-used libraries, we characterize the GNN computation at inference stage concerning general-purpose and application-specific architectures and hope our work can foster more system and architecture research for GNNs.",
+        "word_count": 134,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2009.00804v2"
+      },
+      {
+        "id": "http://arxiv.org/abs/2005.05859v2",
+        "title": "Neural Architecture Transfer",
+        "authors": "Zhichao Lu, Gautam Sreekumar, Erik Goodman et al.",
+        "year": "2020",
+        "abstract": "Neural architecture search (NAS) has emerged as a promising avenue for automatically designing task-specific neural networks. Existing NAS approaches require one complete search for each deployment specification of hardware or objective. This is a computationally impractical endeavor given the potentially large number of application scenarios. In this paper, we propose Neural Architecture Transfer (NAT) to overcome this limitation. NAT is designed to efficiently generate task-specific custom models that are competitive under multiple conflicting objectives. To realize this goal we learn task-specific supernets from which specialized subnets can be sampled without any additional training. The key to our approach is an integrated online transfer learning and many-objective evolutionary search procedure. A pre-trained supernet is iteratively adapted while simultaneously searching for task-specific subnets. We demonstrate the efficacy of NAT on 11 benchmark image classification tasks ranging from large-scale multi-class to small-scale fine-grained datasets. In all cases, including ImageNet, NATNets improve upon the state-of-the-art under mobile settings ($\\leq$ 600M Multiply-Adds). Surprisingly, small-scale fine-grained datasets benefit the most from NAT. At the same time, the architecture search and transfer is orders of magnitude more efficient than existing NAS methods. Overall, the experimental evaluation indicates that, across diverse image classification tasks and computational objectives, NAT is an appreciably more effective alternative to conventional transfer learning of fine-tuning weights of an existing network architecture learned on standard datasets. Code is available at https://github.com/human-analysis/neural-architecture-transfer",
+        "word_count": 227,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2005.05859v2"
+      },
+      {
+        "id": "http://arxiv.org/abs/2004.01395v3",
+        "title": "Neural Architecture Generator Optimization",
+        "authors": "Binxin Ru, Pedro Esperanca, Fabio Carlucci",
+        "year": "2020",
+        "abstract": "Neural Architecture Search (NAS) was first proposed to achieve state-of-the-art performance through the discovery of new architecture patterns, without human intervention. An over-reliance on expert knowledge in the search space design has however led to increased performance (local optima) without significant architectural breakthroughs, thus preventing truly novel solutions from being reached. In this work we 1) are the first to investigate casting NAS as a problem of finding the optimal network generator and 2) we propose a new, hierarchical and graph-based search space capable of representing an extremely large variety of network types, yet only requiring few continuous hyper-parameters. This greatly reduces the dimensionality of the problem, enabling the effective use of Bayesian Optimisation as a search strategy. At the same time, we expand the range of valid architectures, motivating a multi-objective learning approach. We demonstrate the effectiveness of this strategy on six benchmark datasets and show that our search space generates extremely lightweight yet highly competitive models.",
+        "word_count": 158,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2004.01395v3"
+      },
+      {
+        "id": "http://arxiv.org/abs/1901.01074v3",
+        "title": "Multi-Objective Reinforced Evolution in Mobile Neural Architecture Search",
+        "authors": "Xiangxiang Chu, Bo Zhang, Ruijun Xu et al.",
+        "year": "2019",
+        "abstract": "Fabricating neural models for a wide range of mobile devices demands for a specific design of networks due to highly constrained resources. Both evolution algorithms (EA) and reinforced learning methods (RL) have been dedicated to solve neural architecture search problems. However, these combinations usually concentrate on a single objective such as the error rate of image classification. They also fail to harness the very benefits from both sides. In this paper, we present a new multi-objective oriented algorithm called MoreMNAS (Multi-Objective Reinforced Evolution in Mobile Neural Architecture Search) by leveraging good virtues from both EA and RL. In particular, we incorporate a variant of multi-objective genetic algorithm NSGA-II, in which the search space is composed of various cells so that crossovers and mutations can be performed at the cell level. Moreover, reinforced control is mixed with a natural mutating process to regulate arbitrary mutation, maintaining a delicate balance between exploration and exploitation. Therefore, not only does our method prevent the searched models from degrading during the evolution process, but it also makes better use of learned knowledge. Our experiments conducted in Super-resolution domain (SR) deliver rivalling models compared to some state-of-the-art methods with fewer FLOPS.",
+        "word_count": 195,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/1901.01074v3"
+      },
+      {
+        "id": "http://arxiv.org/abs/2607.18488v1",
+        "title": "The Open Ant: A Robot Platform for Reinforcement Learning Research",
+        "authors": "Elena Sorina Lupu, Patrick Spieler, Khurram Javed et al.",
+        "year": "2026",
+        "abstract": "Reinforcement learning (RL) research has demonstrated success in both physical and simulated domains; however, the predominant methodology remains rooted in simulations. The predominance of simulations makes translating research to physical reality uncertain for both algorithms and researchers. We propose a physical platform that is designed to simplify the transition. In this paper, we present the Open Ant: a physical variant of the commonly used Gymnasium Ant environment, along with a simulation. We demonstrate that competent walking policies can be learned from scratch in approximately one hour directly from the physical robot's experience for two substantially different RL algorithms: SARSA($\u03bb$) and Soft Actor-Critic (SAC). Separately, we show policies that were learned in simulation transfer to reality. We also examine how well the platform supports a nimble experimental ecosystem. Specifically, we observe the speed with which new users from diverse backgrounds achieve their first success with the platform, and how easily the platform can be repaired and updated when hardware issues arise. Both the hardware design and software are available as open-source on GitHub for ease of customization. In summary, we advocate for the use of the Open Ant for RL researchers who frequently use simulated environments, so they can more easily include robot experiments in their evaluations.",
+        "word_count": 206,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2607.18488v1"
+      },
+      {
+        "id": "http://arxiv.org/abs/2602.12375v1",
+        "title": "Value Bonuses using Ensemble Errors for Exploration in Reinforcement Learning",
+        "authors": "Abdul Wahab, Raksha Kumaraswamy, Martha White",
+        "year": "2026",
+        "abstract": "Optimistic value estimates provide one mechanism for directed exploration in reinforcement learning (RL). The agent acts greedily with respect to an estimate of the value plus what can be seen as a value bonus. The value bonus can be learned by estimating a value function on reward bonuses, propagating local uncertainties around rewards. However, this approach only increases the value bonus for an action retroactively, after seeing a higher reward bonus from that state and action. Such an approach does not encourage the agent to visit a state and action for the first time. In this work, we introduce an algorithm for exploration called Value Bonuses with Ensemble errors (VBE), that maintains an ensemble of random action-value functions (RQFs). VBE uses the errors in the estimation of these RQFs to design value bonuses that provide first-visit optimism and deep exploration. The key idea is to design the rewards for these RQFs in such a way that the value bonus can decrease to zero. We show that VBE outperforms Bootstrap DQN and two reward bonus approaches (RND and ACB) on several classic environments used to test exploration and provide demonstrative experiments that it can scale easily to more complex environments like Atari.",
+        "word_count": 201,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2602.12375v1"
+      },
+      {
+        "id": "http://arxiv.org/abs/2507.02910v1",
+        "title": "Causal-Paced Deep Reinforcement Learning",
+        "authors": "Geonwoo Cho, Jaegyun Im, Doyoon Kim et al.",
+        "year": "2025",
+        "abstract": "Designing effective task sequences is crucial for curriculum reinforcement learning (CRL), where agents must gradually acquire skills by training on intermediate tasks. A key challenge in CRL is to identify tasks that promote exploration, yet are similar enough to support effective transfer. While recent approach suggests comparing tasks via their Structural Causal Models (SCMs), the method requires access to ground-truth causal structures, an unrealistic assumption in most RL settings. In this work, we propose Causal-Paced Deep Reinforcement Learning (CP-DRL), a curriculum learning framework aware of SCM differences between tasks based on interaction data approximation. This signal captures task novelty, which we combine with the agent's learnability, measured by reward gain, to form a unified objective. Empirically, CP-DRL outperforms existing curriculum methods on the Point Mass benchmark, achieving faster convergence and higher returns. CP-DRL demonstrates reduced variance with comparable final returns in the Bipedal Walker-Trivial setting, and achieves the highest average performance in the Infeasible variant. These results indicate that leveraging causal relationships between tasks can improve the structure-awareness and sample efficiency of curriculum reinforcement learning. We provide the full implementation of CP-DRL to facilitate the reproduction of our main results at https://github.com/Cho-Geonwoo/CP-DRL.",
+        "word_count": 192,
+        "source": "arXiv",
+        "url": "http://arxiv.org/abs/2507.02910v1"
+      }
+    ],
+    "openalex": [
+      {
+        "id": "https://openalex.org/W3133696297",
+        "title": "Transformer in Transformer",
+        "authors": "Kai Han, An Xiao, Enhua Wu et al.",
+        "year": "2021",
+        "abstract": "Transformer is a new kind of neural architecture which encodes the input data as powerful features via the attention mechanism. Basically, the visual transformers first divide the input images into several local patches and then calculate both representations and their relationship. Since natural images are of high complexity with abundant detail and color information, the granularity of the patch dividing is not fine enough for excavating features of objects in different scales and locations. In this paper, we point out that the attention inside these local patches are also essential for building visual transformers with high performance and we explore a new architecture, namely, Transformer iN Transformer (TNT). Specifically, we regard the local patches (e.g., 16$\\times$16) as \"visual sentences\" and present to further divide them into smaller patches (e.g., 4$\\times$4) as \"visual words\". The attention of each word will be calculated with other words in the given visual sentence with negligible computational costs. Features of both words and sentences will be aggregated to enhance the representation ability. Experiments on several benchmarks demonstrate the effectiveness of the proposed TNT architecture, e.g., we achieve an 81.5% top-1 accuracy on the ImageNet, which is about 1.7% higher than that of the state-of-the-art visual transformer with similar computational cost. The PyTorch code is available at https://github.com/huawei-noah/CV-Backbones, and the MindSpore code is available at https://gitee.com/mindspore/models/tree/master/research/cv/TNT.",
+        "word_count": 220,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.48550/arxiv.2103.00112"
+      },
+      {
+        "id": "https://openalex.org/W3171649327",
+        "title": "A survey of transformers",
+        "authors": "Tianyang Lin, Yuxin Wang, Xiangyang Liu et al.",
+        "year": "2022",
+        "abstract": "Transformers have achieved great success in many artificial intelligence fields, such as natural language processing, computer vision, and audio processing. Therefore, it is natural to attract lots of interest from academic and industry researchers. Up to the present, a great variety of Transformer variants (a.k.a. X-formers) have been proposed, however, a systematic and comprehensive literature review on these Transformer variants is still missing. In this survey, we provide a comprehensive review of various X-formers. We first briefly introduce the vanilla Transformer and then propose a new taxonomy of X-formers. Next, we introduce the various X-formers from three perspectives: architectural modification, pre-training, and applications. Finally, we outline some potential directions for future research.",
+        "word_count": 112,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1016/j.aiopen.2022.10.001"
+      },
+      {
+        "id": "https://openalex.org/W3138516171",
+        "title": "Swin Transformer: Hierarchical Vision Transformer using Shifted Windows",
+        "authors": "Ze Liu, Yutong Lin, Yue Cao et al.",
+        "year": "2021",
+        "abstract": "This paper presents a new vision Transformer, called Swin Transformer, that capably serves as a general-purpose backbone for computer vision. Challenges in adapting Transformer from language to vision arise from differences between the two domains, such as large variations in the scale of visual entities and the high resolution of pixels in images compared to words in text. To address these differences, we propose a hierarchical Transformer whose representation is computed with Shifted windows. The shifted windowing scheme brings greater efficiency by limiting self-attention computation to non-overlapping local windows while also allowing for cross-window connection. This hierarchical architecture has the flexibility to model at various scales and has linear computational complexity with respect to image size. These qualities of Swin Transformer make it compatible with a broad range of vision tasks, including image classification (87.3 top-1 accuracy on ImageNet-1K) and dense prediction tasks such as object detection (58.7 box AP and 51.1 mask AP on COCO test-dev) and semantic segmentation (53.5 mIoU on ADE20K val). Its performance surpasses the previous state-of-the-art by a large margin of +2.7 box AP and +2.6 mask AP on COCO, and +3.2 mIoU on ADE20K, demonstrating the potential of Transformer-based models as vision backbones. The hierarchical design and the shifted window approach also prove beneficial for all-MLP architectures. The code and models are publicly available at https://github.com/microsoft/Swin-Transformer.",
+        "word_count": 222,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1109/iccv48922.2021.00986"
+      },
+      {
+        "id": "https://openalex.org/W4214755140",
+        "title": "Point Transformer",
+        "authors": "Hengshuang Zhao, Li Jiang, Jiaya Jia et al.",
+        "year": "2021",
+        "abstract": "Self-attention networks have revolutionized natural language processing and are making impressive strides in image analysis tasks such as image classification and object detection. Inspired by this success, we investigate the application of self-attention networks to 3D point cloud processing. We design self-attention layers for point clouds and use these to construct self-attention networks for tasks such as semantic scene segmentation, object part segmentation, and object classification. Our Point Transformer design improves upon prior work across domains and tasks. For example, on the challenging S3DIS dataset for large-scale semantic scene segmentation, the Point Transformer attains an mIoU of 70.4% on Area 5, outperforming the strongest prior model by 3.3 absolute percentage points and crossing the 70% mIoU threshold for the first time.",
+        "word_count": 121,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1109/iccv48922.2021.01595"
+      },
+      {
+        "id": "https://openalex.org/W4362515116",
+        "title": "A Survey of Large Language Models",
+        "authors": "Wayne Xin Zhao, Kun Zhou, Junyi Li et al.",
+        "year": "2026",
+        "abstract": "Abstract The rapid evolution of large language models (LLMs) has driven a transformative shift in artificial intelligence (AI), reshaping both research paradigms and practical applications. Distinguished from their predecessors by unprecedented scale and advanced capabilities, LLMs necessitate new frameworks for understanding their development, behavior, and societal impact. This survey systematically reviews recent advancements in LLM techniques across four key dimensions: (1) pre-training methodologies, which establish core model capabilities through large-scale self-supervised training, architectural innovations, and data curation strategies; (2) post-training techniques, including supervised fine-tuning and reinforcement learning, which adapt foundational models to downstream tasks and enhance their alignment and safety; (3) utilization strategies, such as in-context learning, prompt engineering, and agentic reasoning, that optimize real-world deployment and enable effective interaction with external environments; and (4) evaluation methods, encompassing benchmarks for key ability dimensions such as core language capabilities, reasoning, and safety, which support comprehensive and reliable assessment of model performance. Additionally, we identify critical research issues, including those concerning theoretical foundations, efficient scaling, alignment, and agentic capability, and highlight the open challenges they present. By synthesizing state-of-the-art insights and emerging trends, this survey aims to provide a systematic and comprehensive framework for understanding the trajectory, current limitations, and future directions of LLM progress.",
+        "word_count": 203,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1007/s11704-026-60308-3"
+      },
+      {
+        "id": "https://openalex.org/W4283026156",
+        "title": "Emergent Abilities of Large Language Models",
+        "authors": "Wei, Jason, Yi Tay, Rishi Bommasani et al.",
+        "year": "2022",
+        "abstract": "Scaling up language models has been shown to predictably improve performance and sample efficiency on a wide range of downstream tasks. This paper instead discusses an unpredictable phenomenon that we refer to as emergent abilities of large language models. We consider an ability to be emergent if it is not present in smaller models but is present in larger models. Thus, emergent abilities cannot be predicted simply by extrapolating the performance of smaller models. The existence of such emergence implies that additional scaling could further expand the range of capabilities of language models.",
+        "word_count": 93,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.48550/arxiv.2206.07682"
+      },
+      {
+        "id": "https://openalex.org/W4391136507",
+        "title": "A Survey on Evaluation of Large Language Models",
+        "authors": "Yupeng Chang, Xu Wang, Jindong Wang et al.",
+        "year": "2024",
+        "abstract": "Large language models (LLMs) are gaining increasing popularity in both academia and industry, owing to their unprecedented performance in various applications. As LLMs continue to play a vital role in both research and daily use, their evaluation becomes increasingly critical, not only at the task level, but also at the society level for better understanding of their potential risks. Over the past years, significant efforts have been made to examine LLMs from various perspectives. This paper presents a comprehensive review of these evaluation methods for LLMs, focusing on three key dimensions: what to evaluate, where to evaluate, and how to evaluate. Firstly, we provide an overview from the perspective of evaluation tasks, encompassing general natural language processing tasks, reasoning, medical usage, ethics, education, natural and social sciences, agent applications, and other areas. Secondly, we answer the \u2018where\u2019 and \u2018how\u2019 questions by diving into the evaluation methods and benchmarks, which serve as crucial components in assessing the performance of LLMs. Then, we summarize the success and failure cases of LLMs in different tasks. Finally, we shed light on several future challenges that lie ahead in LLMs evaluation. Our aim is to offer invaluable insights to researchers in the realm of LLMs evaluation, thereby aiding the development of more proficient LLMs. Our key point is that evaluation should be treated as an essential discipline to better assist the development of LLMs. We consistently maintain the related open-source materials at: https://github.com/MLGroupJLU/LLM-eval-survey",
+        "word_count": 238,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1145/3641289"
+      },
+      {
+        "id": "https://openalex.org/W4411403346",
+        "title": "A Comprehensive Overview of Large Language Models",
+        "authors": "Humza Naveed, Asad Ullah Khan, Shi Qiu et al.",
+        "year": "2025",
+        "abstract": "Large Language Models (LLMs) have recently demonstrated remarkable capabilities in natural language processing tasks and beyond. This success of LLMs has led to a large influx of research contributions in this direction. These works encompass diverse topics such as architectural innovations, better training strategies, context length improvements, fine-tuning, multimodal LLMs, robotics, datasets, benchmarking, efficiency, and more. With the rapid development of techniques and regular breakthroughs in LLM research, it has become considerably challenging to perceive the bigger picture of the advances in this direction. Considering the rapidly emerging plethora of literature on LLMs, it is imperative that the research community is able to benefit from a concise yet comprehensive overview of the recent developments in this field. This article provides an overview of the literature on a broad range of LLM-related concepts. Our self-contained comprehensive overview of LLMs discusses relevant background concepts along with covering the advanced topics at the frontier of research in LLMs. This review article is intended to provide not only a systematic survey but also a quick, comprehensive reference for the researchers and practitioners to draw insights from extensive, informative summaries of the existing works to advance the LLM research.",
+        "word_count": 194,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1145/3744746"
+      },
+      {
+        "id": "https://openalex.org/W2946547492",
+        "title": "Neural Architecture Search",
+        "authors": "Thomas Elsken, Jan Hendrik Metzen, Frank Hutter",
+        "year": "2019",
+        "abstract": "Deep Learning has enabled remarkable progress over the last years on a variety of tasks, such as image recognition, speech recognition, and machine translation. One crucial aspect for this progress are novel neural architectures. Currently employed architectures have mostly been developed manually by human experts, which is a time-consuming and error-prone process. Because of this, there is growing interest in automated neural architecture search methods. We provide an overview of existing work in this field of research and categorize them according to three dimensions: search space, search strategy, and performance estimation strategy.",
+        "word_count": 92,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1007/978-3-030-05318-5_3"
+      },
+      {
+        "id": "https://openalex.org/W2888429796",
+        "title": "Neural Architecture Optimization",
+        "authors": "Renqian Luo, Fei Tian, Tao Qin et al.",
+        "year": "2018",
+        "abstract": "Automatic neural architecture design has shown its potential in discovering powerful neural network architectures. Existing methods, no matter based on reinforcement learning or evolutionary algorithms (EA), conduct architecture search in a discrete space, which is highly inefficient. In this paper, we propose a simple and efficient method to automatic neural architecture design based on continuous optimization. We call this new approach neural architecture optimization (NAO). There are three key components in our proposed approach: (1) An encoder embeds/maps neural network architectures into a continuous space. (2) A predictor takes the continuous representation of a network as input and predicts its accuracy. (3) A decoder maps a continuous representation of a network back to its architecture. The performance predictor and the encoder enable us to perform gradient based optimization in the continuous space to find the embedding of a new architecture with potentially better accuracy. Such a better embedding is then decoded to a network by the decoder. Experiments show that the architecture discovered by our method is very competitive for image classification task on CIFAR-10 and language modeling task on PTB, outperforming or on par with the best results of previous architecture search methods with a significantly reduction of computational resources. Specifically we obtain 1.93% test set error rate for CIFAR-10 image classification task and 56.0 test set perplexity of PTB language modeling task. Furthermore, combined with the recent proposed weight sharing mechanism, we discover powerful architecture on CIFAR-10 (with error rate 2.93%) and on PTB (with test set perplexity 56.6), with very limited computational resources (less than 10 GPU hours) for both tasks.",
+        "word_count": 264,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.48550/arxiv.1808.07233"
+      },
+      {
+        "id": "https://openalex.org/W2981406437",
+        "title": "BANANAS: Bayesian Optimization with Neural Architectures for Neural Architecture Search",
+        "authors": "Colin White, Willie Neiswanger, Yash Savani",
+        "year": "2021",
+        "abstract": "Over the past half-decade, many methods have been considered for neural architecture search (NAS). Bayesian optimization (BO), which has long had success in hyperparameter optimization, has recently emerged as a very promising strategy for NAS when it is coupled with a neural predictor. Recent work has proposed different instantiations of this framework, for example, using Bayesian neural networks or graph convolutional networks as the predictive model within BO. However, the analyses in these papers often focus on the full-fledged NAS algorithm, so it is difficult to tell which individual components of the framework lead to the best performance. In this work, we give a thorough analysis of the \"BO + neural predictor framework\" by identifying five main components: the architecture encoding, neural predictor, uncertainty calibration method, acquisition function, and acquisition function optimization. We test several different methods for each component and also develop a novel path-based encoding scheme for neural architectures, which we show theoretically and empirically scales better than other encodings. Using all of our analyses, we develop a final algorithm called BANANAS, which achieves state-of-the-art performance on NAS search spaces. We adhere to the NAS research checklist (Lindauer and Hutter 2019) to facilitate best practices, and our code is available at https://github.com/naszilla/naszilla.",
+        "word_count": 204,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1609/aaai.v35i12.17233"
+      },
+      {
+        "id": "https://openalex.org/W2885311373",
+        "title": "Neural Architecture Search: A Survey",
+        "authors": "Thomas Elsken, Jan Hendrik Metzen, Frank Hutter",
+        "year": "2018",
+        "abstract": "Deep Learning has enabled remarkable progress over the last years on a variety of tasks, such as image recognition, speech recognition, and machine translation. One crucial aspect for this progress are novel neural architectures. Currently employed architectures have mostly been developed manually by human experts, which is a time-consuming and error-prone process. Because of this, there is growing interest in automated neural architecture search methods. We provide an overview of existing work in this field of research and categorize them according to three dimensions: search space, search strategy, and performance estimation strategy.",
+        "word_count": 92,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.48550/arxiv.1808.05377"
+      },
+      {
+        "id": "https://openalex.org/W2107726111",
+        "title": "Reinforcement Learning: A Survey",
+        "authors": "Leslie Pack Kaelbling, Michael L. Littman, Andrew Moore",
+        "year": "1996",
+        "abstract": "This paper surveys the field of reinforcement learning from a computer-science perspective. It is written to be accessible to researchers familiar with machine learning. Both the historical basis of the field and a broad selection of current work are summarized. Reinforcement learning is the problem faced by an agent that learns behavior through trial-and-error interactions with a dynamic environment. The work described here has a resemblance to work in psychology, but differs considerably in the details and in the use of the word ``reinforcement.'' The paper discusses central issues of reinforcement learning, including trading off exploration and exploitation, establishing the foundations of the field via Markov decision theory, learning from delayed reinforcement, constructing empirical models to accelerate learning, making use of generalization and hierarchy, and coping with hidden state. It concludes with a survey of some implemented systems and an assessment of the practical utility of current methods for reinforcement learning.",
+        "word_count": 151,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1613/jair.301"
+      },
+      {
+        "id": "https://openalex.org/W2121863487",
+        "title": "Reinforcement Learning: An Introduction",
+        "authors": "Sutton, Richard S., Barto, Andrew",
+        "year": "2005",
+        "abstract": "An account of key ideas and algorithms in reinforcement learning. The discussion ranges from the history of the field's intellectual foundations to recent developments and applications. Areas studied include reinforcement learning problems in terms of Markov decision problems and solution methods.",
+        "word_count": 41,
+        "source": "OpenAlex",
+        "url": "https://doi.org/10.1109/tnn.2004.842673"
+      },
+      {
+        "id": "https://openalex.org/W1515851193",
+        "title": "Introduction to Reinforcement Learning",
+        "authors": "Richard S. Sutton, Andrew G. Barto",
+        "year": "1998",
+        "abstract": "From the Publisher:\r\nIn Reinforcement Learning, Richard Sutton and Andrew Barto provide a clear and simple account of the key ideas and algorithms of reinforcement learning. Their discussion ranges from the history of the field's intellectual foundations to the most recent developments and applications. The only necessary mathematical background is familiarity with elementary concepts of probability.",
+        "word_count": 56,
+        "source": "OpenAlex",
+        "url": "https://openalex.org/W1515851193"
+      }
+    ]
+  }
+}

@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-base: #050811;
+    --card-surface: rgba(12, 18, 32, 0.75);
+    --border-subtle: rgba(30, 41, 59, 0.7);
+    --neon-green: #00ff88;
+    --neon-emerald: #10b981;
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+  }
+
+  html {
+    color-scheme: dark;
+    background-color: #050811;
+  }
+
+  body {
+    background-color: #050811;
+    color: #f8fafc;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050811;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.25);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.5);
+  }
+}
+
+@layer components {
+  /* Laboratory Glass Card */
+  .lab-card {
+    background: rgba(12, 18, 32, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(30, 41, 59, 0.7);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  }
+
+  .lab-card-interactive {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lab-card-interactive:hover {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 12px 36px -8px rgba(0, 255, 136, 0.08), 0 0 0 1px rgba(16, 185, 129, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Neon Glowing Button */
+  .btn-neon-primary {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #050811;
+    font-weight: 600;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+    transition: all 0.2s ease;
+  }
+  .btn-neon-primary:hover {
+    background: linear-gradient(135deg, #00ff88 0%, #10b981 100%);
+    box-shadow: 0 0 28px rgba(0, 255, 136, 0.5);
+    transform: translateY(-1px);
+  }
+  .btn-neon-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Lab Grid Texture */
+  .lab-grid-bg {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
+
+  /* Fine Dot Matrix */
+  .lab-dots-bg {
+    background-image: radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+}

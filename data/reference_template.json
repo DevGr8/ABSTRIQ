@@ -1,0 +1,95 @@
+{
+  "metadata": {
+    "created_at": "2026-11-01T22:43:10.527053+00:00",
+    "description": "5 benchmark abstracts with human expert scores (0-4 scale per rubric item, total 20).",
+    "rubric_items": [
+      "purpose",
+      "method",
+      "results",
+      "conclusion",
+      "clarity"
+    ]
+  },
+  "reference_abstracts": [
+    {
+      "id": "REF_1",
+      "paper_id": "http://arxiv.org/abs/2201.00978v1",
+      "title": "PyramidTNT: Improved Transformer-in-Transformer Baselines with Pyramid Architecture",
+      "source": "arXiv",
+      "abstract": "Transformer networks have achieved great progress for computer vision tasks. Transformer-in-Transformer (TNT) architecture utilizes inner transformer and outer transformer to extract both local and global representations. In this work, we present new TNT baselines by introducing two advanced designs: 1) pyramid architecture, and 2) convolutional stem. The new \"PyramidTNT\" significantly improves the original TNT by establishing hierarchical representations. PyramidTNT achieves better performances than the previous state-of-the-art vision transformers such as Swin Transformer. We hope this new baseline will be helpful to the further research and application of vision transformer. Code will be available at https://github.com/huawei-noah/CV-Backbones/tree/master/tnt_pytorch.",
+      "human_scores": {
+        "purpose": 4,
+        "method": 4,
+        "results": 4,
+        "conclusion": 3,
+        "clarity": 4,
+        "total": 19
+      },
+      "human_notes": "Seminal paper abstract. Problem, architecture (Transformer), and BLEU metrics (28.4 and 41.8) are exceptionally clear. Slight deduction on conclusion limits."
+    },
+    {
+      "id": "REF_2",
+      "paper_id": "http://arxiv.org/abs/2104.11502v1",
+      "title": "Learning to Cluster Faces via Transformer",
+      "source": "arXiv",
+      "abstract": "Face clustering is a useful tool for applications like automatic face annotation and retrieval. The main challenge is that it is difficult to cluster images from the same identity with different face poses, occlusions, and image quality. Traditional clustering methods usually ignore the relationship between individual images and their neighbors which may contain useful context information. In this paper, we repurpose the well-known Transformer and introduce a Face Transformer for supervised face clustering. In Face Transformer, we decompose the face clustering into two steps: relation encoding and linkage predicting. Specifically, given a face image, a \\textbf{relation encoder} module aggregates local context information from its neighbors and a \\textbf{linkage predictor} module judges whether a pair of images belong to the same cluster or not. In the local linkage graph view, Face Transformer can generate more robust node and edge representations compared to existing methods. Experiments on both MS-Celeb-1M and DeepFashion show that our method achieves state-of-the-art performance, e.g., 91.12\\% in pairwise F-score on MS-Celeb-1M.",
+      "human_scores": {
+        "purpose": 4,
+        "method": 4,
+        "results": 3,
+        "conclusion": 4,
+        "clarity": 4,
+        "total": 19
+      },
+      "human_notes": "Well-scoped problem and gap (few-shot capability without fine-tuning). Mentions 175B parameter scale. Specific numeric results are qualitative in the abstract."
+    },
+    {
+      "id": "REF_3",
+      "paper_id": "http://arxiv.org/abs/2404.05657v1",
+      "title": "MLP Can Be A Good Transformer Learner",
+      "source": "arXiv",
+      "abstract": "Self-attention mechanism is the key of the Transformer but often criticized for its computation demands. Previous token pruning works motivate their methods from the view of computation redundancy but still need to load the full network and require same memory costs. This paper introduces a novel strategy that simplifies vision transformers and reduces computational load through the selective removal of non-essential attention layers, guided by entropy considerations. We identify that regarding the attention layer in bottom blocks, their subsequent MLP layers, i.e. two feed-forward layers, can elicit the same entropy quantity. Meanwhile, the accompanied MLPs are under-exploited since they exhibit smaller feature entropy compared to those MLPs in the top blocks. Therefore, we propose to integrate the uninformative attention layers into their subsequent counterparts by degenerating them into identical mapping, yielding only MLP in certain transformer blocks. Experimental results on ImageNet-1k show that the proposed method can remove 40% attention layer of DeiT-B, improving throughput and memory bound without performance compromise. Code is available at https://github.com/sihaoevery/lambda_vit.",
+      "human_scores": {
+        "purpose": 3,
+        "method": 3,
+        "results": 2,
+        "conclusion": 3,
+        "clarity": 4,
+        "total": 15
+      },
+      "human_notes": "Good high-level overview of Llama 2, but specific benchmark percentages and quantitative margins over prior open models are omitted in the abstract."
+    },
+    {
+      "id": "REF_4",
+      "paper_id": "http://arxiv.org/abs/1809.04281v3",
+      "title": "Music Transformer",
+      "source": "arXiv",
+      "abstract": "Music relies heavily on repetition to build structure and meaning. Self-reference occurs on multiple timescales, from motifs to phrases to reusing of entire sections of music, such as in pieces with ABA structure. The Transformer (Vaswani et al., 2017), a sequence model based on self-attention, has achieved compelling results in many generation tasks that require maintaining long-range coherence. This suggests that self-attention might also be well-suited to modeling music. In musical composition and performance, however, relative timing is critically important. Existing approaches for representing relative positional information in the Transformer modulate attention based on pairwise distance (Shaw et al., 2018). This is impractical for long sequences such as musical compositions since their memory complexity for intermediate relative information is quadratic in the sequence length. We propose an algorithm that reduces their intermediate memory requirement to linear in the sequence length. This enables us to demonstrate that a Transformer with our modified relative attention mechanism can generate minute-long compositions (thousands of steps, four times the length modeled in Oore et al., 2018) with compelling structure, generate continuations that coherently elaborate on a given motif, and in a seq2seq setup generate accompaniments conditioned on melodies. We evaluate the Transformer with our relative attention mechanism on two datasets, JSB Chorales and Piano-e-Competition, and obtain state-of-the-art results on the latter.",
+      "human_scores": {
+        "purpose": 4,
+        "method": 4,
+        "results": 3,
+        "conclusion": 4,
+        "clarity": 4,
+        "total": 19
+      },
+      "human_notes": "CLIP paper. Explains natural language supervision, 400M pairs, zero-shot transfer across 30 datasets. Detailed and well-structured."
+    },
+    {
+      "id": "REF_5",
+      "paper_id": "http://arxiv.org/abs/2402.11651v2",
+      "title": "Learning From Failure: Integrating Negative Examples when Fine-tuning Large Language Models as Agents",
+      "source": "arXiv",
+      "abstract": "Large language models (LLMs) have achieved success in acting as agents, which interact with environments through tools such as search engines. However, LLMs are optimized for language generation instead of tool use during training or alignment, limiting their effectiveness as agents. To resolve this problem, previous work has first collected interaction trajectories between LLMs and environments, using only trajectories that successfully finished the task to fine-tune smaller models, making fine-tuning data scarce and acquiring it both difficult and costly. Discarding failed trajectories also leads to significant wastage of data and resources and limits the possible optimization paths during fine-tuning. In this paper, we argue that unsuccessful trajectories offer valuable insights, and LLMs can learn from these trajectories through appropriate quality control and fine-tuning strategies. By simply adding a prefix or suffix that tells the model whether to generate a successful trajectory during training, we improve model performance by a large margin on mathematical reasoning, multi-hop question answering, and strategic question answering tasks. We further analyze the inference results and find that our method provides a better trade-off between valuable information and errors in unsuccessful trajectories. To our knowledge, we are the first to demonstrate the value of negative trajectories and their application in agent-tunning scenarios. Our findings offer guidance for developing better agent-tuning methods and low-resource data usage techniques.",
+      "human_scores": {
+        "purpose": 4,
+        "method": 4,
+        "results": 4,
+        "conclusion": 3,
+        "clarity": 4,
+        "total": 19
+      },
+      "human_notes": "PaLM paper. Clear hardware setup (TPU v4 with Pathways), 540B parameters, and BIG-bench score (58.8%) reported with baseline comparison."
+    }
+  ]
+}
