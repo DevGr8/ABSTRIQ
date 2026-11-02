@@ -14,12 +14,12 @@ function ResearchNodeCore({ mouse }: { mouse: React.MutableRefObject<[number, nu
   const { nodePositions, linePositions } = useMemo(() => {
     const count = 38;
     const positions: [number, number, number][] = [];
-    const radius = 2.4;
+    const radius = 2.0;
 
     for (let i = 0; i < count; i++) {
       const phi = Math.acos(-1 + (2 * i) / count);
       const theta = Math.sqrt(count * Math.PI) * phi;
-      const r = radius * (0.8 + Math.random() * 0.4);
+      const r = radius * (0.85 + Math.random() * 0.3);
       positions.push([
         r * Math.cos(theta) * Math.sin(phi),
         r * Math.sin(theta) * Math.sin(phi),
@@ -100,12 +100,12 @@ function ResearchNodeCore({ mouse }: { mouse: React.MutableRefObject<[number, nu
 
       {/* Orbital Scientific Rings */}
       <mesh ref={ring1Ref}>
-        <torusGeometry args={[2.8, 0.015, 16, 100]} />
-        <meshBasicMaterial color="#06b6d4" transparent opacity={0.4} />
+        <torusGeometry args={[2.45, 0.015, 16, 120]} />
+        <meshBasicMaterial color="#06b6d4" transparent opacity={0.45} />
       </mesh>
       <mesh ref={ring2Ref} rotation={[Math.PI / 3, 0, 0]}>
-        <torusGeometry args={[3.2, 0.012, 16, 100]} />
-        <meshBasicMaterial color="#10b981" transparent opacity={0.35} />
+        <torusGeometry args={[2.85, 0.012, 16, 120]} />
+        <meshBasicMaterial color="#10b981" transparent opacity={0.4} />
       </mesh>
 
       {/* Floating Network Nodes */}
@@ -190,10 +190,10 @@ export const HeroResearchScene: React.FC<{ className?: string }> = ({ className 
       aria-label="Interactive 3D Scientific Knowledge Network"
     >
       <Canvas
-        camera={{ position: [0, 0, 6], fov: 48 }}
+        camera={{ position: [0, 0, 7.8], fov: 46 }}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         dpr={[1, 1.5]}
-        style={{ pointerEvents: "auto" }}
+        style={{ pointerEvents: "auto", width: "100%", height: "100%" }}
       >
         <ambientLight intensity={0.4} />
         <pointLight position={[10, 10, 10]} intensity={1.2} color="#00ff88" />
