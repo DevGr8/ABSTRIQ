@@ -1,17 +1,9 @@
 {
   "version": 2,
   "installCommand": "if [ -d frontend ]; then npm --prefix frontend install --legacy-peer-deps; else npm install --legacy-peer-deps; fi",
-  "buildCommand": "if [ -d frontend ]; then npm --prefix frontend run build; else npm run build; fi",
-  "outputDirectory": "frontend/dist",
+  "buildCommand": "if [ -d frontend ]; then npm --prefix frontend run build && cp -r frontend/dist ./dist; else npm run build; fi",
+  "outputDirectory": "dist",
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index"
-    },
-    {
-      "source": "/download",
-      "destination": "/api/index"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
