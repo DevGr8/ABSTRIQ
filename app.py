@@ -152,9 +152,12 @@ def handle_unexpected_error(e):
 
 
 # ---------------------------------------------------------------------------
-# Frontend Route (Serves React 19 SPA from frontend/dist if built, else template)
+# Frontend Route (Serves React 19 SPA from frontend/dist or dist if built, else template)
 # ---------------------------------------------------------------------------
-FRONTEND_DIST = Path(__file__).resolve().parent / "frontend" / "dist"
+BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_DIST = BASE_DIR / "frontend" / "dist"
+if not (FRONTEND_DIST / "index.html").exists():
+    FRONTEND_DIST = BASE_DIR / "dist"
 
 
 @app.route("/", defaults={"path": ""}, methods=["GET"])
