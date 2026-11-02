@@ -36,6 +36,15 @@ export function setAuthToken(token: string | null): void {
   }
 }
 
+export function resolveApiUrl(path: string): string {
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+  const base = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return base ? `${base}${cleanPath}` : cleanPath;
+}
+
 export async function requestJson<T>(
   url: string,
   options?: RequestInit & { timeoutMs?: number }
@@ -60,7 +69,8 @@ export async function requestJson<T>(
   }
 
   try {
-    const response = await fetch(url, {
+    const fullUrl = resolveApiUrl(url);
+    const response = await fetch(fullUrl, {
       ...options,
       signal: options?.signal || controller.signal,
       headers: {

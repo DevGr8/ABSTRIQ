@@ -1,4 +1,4 @@
-import { requestJson, ApiError } from "./api";
+import { requestJson, resolveApiUrl, ApiError } from "./api";
 import type {
   RuntimeConfig,
   EvaluationResult,
@@ -61,7 +61,7 @@ export async function uploadDocument(file: File): Promise<UploadResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch("/api/upload", {
+  const response = await fetch(resolveApiUrl("/api/upload"), {
     method: "POST",
     body: formData,
   });
@@ -82,5 +82,5 @@ export async function fetchHistory(): Promise<HistoryRecord[]> {
 }
 
 export function getDownloadUrl(): string {
-  return "/download";
+  return resolveApiUrl("/download");
 }
