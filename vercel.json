@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "installCommand": "npm --prefix frontend install --legacy-peer-deps",
-  "buildCommand": "npm --prefix frontend run build",
+  "installCommand": "if [ -d frontend ]; then npm --prefix frontend install --legacy-peer-deps; else npm install --legacy-peer-deps; fi",
+  "buildCommand": "if [ -d frontend ]; then npm --prefix frontend run build; else npm run build; fi",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     {
