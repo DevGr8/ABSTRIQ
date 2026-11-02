@@ -57,22 +57,22 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Client[React 19 + TypeScript SPA<br/>Vite / Tailwind / Motion / Three.js]
+    Client["React 19 + TypeScript SPA<br/>Vite / Tailwind / Motion / Three.js"]
     
-    subgraph NavigationLayer[Sliding Sidebar Navigation]
-        Nav1[MAIN: Overview, Dashboard, Studio, Research, History, Analytics]
-        Nav2[WORKSPACE: Rubric & Docs, API Credentials, Dynamic Excel Download]
-        Nav3[ACCOUNT: Profile, Password Change, Logout, Auth Modal]
+    subgraph NavigationLayer["Sliding Sidebar Navigation"]
+        Nav1["MAIN: Overview, Dashboard, Studio, Research, History, Analytics"]
+        Nav2["WORKSPACE: Rubric & Docs, API Credentials, Dynamic Excel Download"]
+        Nav3["ACCOUNT: Profile, Password Change, Logout, Auth Modal"]
     end
     
     Client --> NavigationLayer
     
-    subgraph BackendAPI[Flask REST API - Port 5001]
-        AuthMW[Firebase Admin Auth Middleware<br/>Extracts UID from Verified ID Token]
+    subgraph BackendAPI["Flask REST API - Port 5001"]
+        AuthMW["Firebase Admin Auth Middleware<br/>Extracts UID from Verified ID Token"]
         
         AuthRoutes["/api/auth/signup<br/>/api/auth/login<br/>/api/auth/logout<br/>/api/auth/me<br/>/api/auth/forgot-password<br/>/api/auth/reset-password"]
         KeyRoutes["/api/user/custom-key (GET, POST, DELETE)<br/>/api/test-key (POST)"]
-        EvalRoutes["/api/evaluate (POST)<br/>/api/history (GET)<br/>/api/history/<id> (GET)<br/>/api/dashboard/stats (GET)"]
+        EvalRoutes["/api/evaluate (POST)<br/>/api/history (GET)<br/>/api/history/:id (GET)<br/>/api/dashboard/stats (GET)"]
         ReportRoutes["/api/reports (GET)<br/>/api/reports/generate (POST)<br/>/download (GET: Dynamic User Excel)"]
         LitRoutes["/api/search (GET: OpenAlex, arXiv)<br/>/api/upload (POST: PDF, TXT)"]
     end
@@ -80,23 +80,23 @@ flowchart TD
     Client -->|REST JSON + Bearer Firebase Token| BackendAPI
     BackendAPI --> AuthMW
     
-    subgraph FirebasePersistence[Firebase Cloud Persistence]
-        Firestore[(Cloud Firestore: users/{uid}/**)]
-        LegacyStore[(Legacy Archive: legacy_evaluations/**<br/>assignedUid: None)]
-        FBStorage[(Firebase Storage: users/{uid}/reports/**)]
+    subgraph FirebasePersistence["Firebase Cloud Persistence"]
+        Firestore[("Cloud Firestore: users/:uid/**")]
+        LegacyStore[("Legacy Archive: legacy_evaluations/**<br/>assignedUid: None")]
+        FBStorage[("Firebase Storage: users/:uid/reports/**")]
     end
     
     BackendAPI --> Firestore
     BackendAPI --> LegacyStore
     BackendAPI --> FBStorage
     
-    subgraph InferenceEngines[LLM Provider Hub]
-        LLM1[Inception Labs Mercury-3]
-        LLM2[NVIDIA NIM Mistral-Large]
-        LLM3[OpenAI GPT-4o-mini]
-        LLM4[Google Gemini 1.5 Flash]
-        LLM5[Anthropic Claude 3.5 Haiku]
-        LLM6[Deterministic Offline MOCK Engine]
+    subgraph InferenceEngines["LLM Provider Hub"]
+        LLM1["Inception Labs Mercury-3"]
+        LLM2["NVIDIA NIM Mistral-Large"]
+        LLM3["OpenAI GPT-4o-mini"]
+        LLM4["Google Gemini 1.5 Flash"]
+        LLM5["Anthropic Claude 3.5 Haiku"]
+        LLM6["Deterministic Offline MOCK Engine"]
     end
     
     EvalRoutes --> InferenceEngines
@@ -214,7 +214,9 @@ CREATE TABLE evaluations (
 - **Never in URLs**: All credential exchanges use HTTP POST payloads over encrypted transports.
 - **Never Plaintext at Rest**: Custom keys are encrypted using symmetric AES-Fernet (`cryptography.fernet.Fernet`).
 - **Per-User Key Derivation**: The encryption key for each user is generated via HMAC-SHA256:
-  $$\text{UserFernetKey} = \text{base64url}(\text{HMAC-SHA256}(\text{SECRET\_KEY}, \text{"abstriq-user-key-salt-" } + \text{user\_id}))$$
+  ```text
+  UserFernetKey = base64url( HMAC-SHA256( SECRET_KEY, "abstriq-user-key-salt-" + user_id ) )
+  ```
   Even if the database is extracted, no single user's key can decrypt another user's credentials.
 - **Masked Retrieval**: `GET /api/user/custom-key` returns masked format `sk-p...9999` and never transmits raw secrets to the browser.
 - **Ephemeral Guest Fallback**: If an unauthenticated guest enters a temporary key, it is held strictly in browser `sessionStorage` (purged upon closing the tab) rather than `localStorage`.

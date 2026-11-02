@@ -25,7 +25,7 @@ flowchart TD
     In1 & In2 & In3 --> S1[Stage 1: Rule-Based Pre-Check<br/>Zero LLM Cost]
     
     S1 --> CheckCond{Pre-Check Valid?}
-    CheckCond -->|Empty / <40 w / >450 w / Non-Prose| Reject([❌ 400 Bad Request<br/>Clear Rejection Error])
+    CheckCond -->|Empty or Out of Range or Non-Prose| Reject([❌ 400 Bad Request<br/>Word count under 40 or over 450 words])
     CheckCond -->|Prompt Manipulation Detected| FlagInj[🚩 Set injection_detected: true]
     CheckCond -->|Valid| S2
     FlagInj --> S2
